@@ -1,0 +1,8 @@
+{
+  "name": "band-peer",
+  "description": "Wires the current Claude Code session as a Band peer via the jam CLI",
+  "author": {
+    "name": "Ed Lepedus",
+    "email": "ed.lepedus@thenvoi.com"
+  }
+}

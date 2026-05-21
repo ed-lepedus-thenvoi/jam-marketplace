@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "jam-marketplace",
+  "description": "Claude Code plugins for the jam CLI — coordinate sessions on the Band platform",
+  "owner": {
+    "name": "Ed Lepedus",
+    "email": "ed.lepedus@thenvoi.com"
+  },
+  "plugins": [
+    {
+      "name": "band-peer",
+      "description": "Wires the current Claude Code session as a Band peer via the jam CLI. Inbound messages arrive automatically as <teammate-message> blocks; outbound is jam send / reply.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Ed Lepedus",
+        "email": "ed.lepedus@thenvoi.com"
+      },
+      "source": "./plugins/band-peer",
+      "category": "communication",
+      "strict": false
+    }
+  ]
+}
