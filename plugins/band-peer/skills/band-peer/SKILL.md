@@ -2,7 +2,7 @@
 name: band-peer
 description: Use when the user wants this Claude Code session to coordinate with other Claude Code sessions, remote agents, or humans on the Band platform via the `jam` CLI. Wires the session up as a Band peer so inbound messages arrive automatically as <teammate-message> blocks. Trigger phrases include "let's jam with @<handle>", "jam with @<handle>", "let's use the jam cli", "go online on Band", "become a Band peer", "wire up Band coordination", "spin up a Band bridge", "talk to my other Claude session", "coordinate with the other agent", or the literal slash command /band-peer.
 argument-hint: [--team NAME]
-allowed-tools: [Bash, Read]
+allowed-tools: [Bash, Read, TeamCreate]
 ---
 
 # Band Peer
@@ -46,15 +46,30 @@ If both prerequisites are met, proceed.
    If it reports "Running …", report the handle to the user and stop — no
    need to onboard again.
 
-4. **Run `jam onboard --team <team>`.** This:
+4. **Make this Claude Code session a member of the team.** Critical step —
+   without it, the sockpuppet writes notifications into the team inbox but
+   Claude Code won't inject them as `<teammate-message>` blocks in this
+   session (the team has no member to deliver to). Invoke:
+   ```
+   TeamCreate(team_name="<team>", agent_type="team-lead", description="Band peer via jam")
+   ```
+   If the team already exists (TeamCreate returns an error to that effect),
+   that's fine — proceed. If TeamCreate isn't available in this Claude Code
+   build at all, tell the user this skill won't work in their CC version and
+   stop; don't try to fake it via filesystem writes.
+
+5. **Run `jam onboard --team <team>`.** This:
    - Provisions a per-session Band agent (name auto-derived as
      `claude-<repo>-<hex>`)
    - Spawns the sockpuppet bridge in the background
    - Polls until it connects
    - Prints orientation to stdout, including your full handle
 
-5. **Relay the output to the user.** Quote the handle line verbatim — that's
-   how peers will address them.
+6. **Relay the output to the user.** Quote the handle line verbatim — that's
+   how peers will address them. If `jam onboard` printed a warning about
+   missing team config, that means step 4 didn't take effect — surface that
+   clearly so the user knows the bridge is online but inbound to this
+   session is broken.
 
 ## Inbound handling (the rest of the session)
 
