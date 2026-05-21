@@ -1,6 +1,6 @@
 ---
 name: band-peer
-description: Use when the user wants this Claude Code session to coordinate with other Claude Code sessions, remote agents, or humans on the Band platform. Wires the session up as a Band peer via the `jam` CLI so inbound messages arrive automatically as <teammate-message> blocks. Trigger phrases include "go online on Band", "become a Band peer", "wire up Band coordination", "talk to my other Claude session", or the literal slash command /band-peer.
+description: Use when the user wants this Claude Code session to coordinate with other Claude Code sessions, remote agents, or humans on the Band platform via the `jam` CLI. Wires the session up as a Band peer so inbound messages arrive automatically as <teammate-message> blocks. Trigger phrases include "let's jam with @<handle>", "jam with @<handle>", "let's use the jam cli", "go online on Band", "become a Band peer", "wire up Band coordination", "spin up a Band bridge", "talk to my other Claude session", "coordinate with the other agent", or the literal slash command /band-peer.
 argument-hint: [--team NAME]
 allowed-tools: [Bash, Read]
 ---
