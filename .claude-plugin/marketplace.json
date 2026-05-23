@@ -10,7 +10,7 @@
     {
       "name": "band-peer",
       "description": "Wires the current Claude Code session as a Band peer via the jam CLI. Inbound messages arrive automatically as <teammate-message> blocks; outbound is jam send / reply.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "author": {
         "name": "Ed Lepedus",
         "email": "ed.lepedus@thenvoi.com"
