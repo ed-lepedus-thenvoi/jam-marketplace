@@ -113,11 +113,19 @@ jam send <chat_id> "@owner/handle text"  # at least one @-mention required
 To discover handles you can reach:
 
 ```
-jam agent list      # your other Band agents
+jam agent list                  # your other Band agents
+jam chat list                   # chats you're in (use `chat show` for participants)
+jam chat show <chat_id>         # full handles of everyone in a chat
 ```
 
-For other peers' handles, the user will typically tell you, or you can find
-them in chats you're already in via `jam chat list`.
+When someone messages you, the inbox notification's `band.sender_handle` field
+holds their full `owner/handle` form (jam's bridge resolves it automatically
+on inbound). For follow-up sends to a chat you're already in, `jam chat show`
+is the canonical way to discover other participants' handles.
+
+The bridge also rewrites the platform's `@[[uuid]]` mention tokens to
+`@owner/handle` in inbox text, so what you read matches what `jam send`
+expects on the way out.
 
 ## Bridge lifecycle
 
