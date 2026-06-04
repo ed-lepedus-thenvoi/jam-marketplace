@@ -30,12 +30,15 @@ If both prerequisites are met, proceed.
 ## Procedure
 
 1. **Pick a team name.** If $ARGUMENTS contains `--team NAME`, use that.
-   Otherwise derive one from the cwd basename: `band-<basename>`. Team names
-   become directories under `~/.claude/teams/`. Sessions in *different* cwds
-   never collide. For two sessions in the *same* cwd: jam's agent/daemon
-   auto-separate (jam ≥0.1.13 folds the harness session id into its scope), but
-   the team name derived here is cwd-based — so pass a distinct `--team NAME`
-   per session to keep their `<teammate-message>` inboxes separate too.
+   Otherwise derive a **session-unique** name: `band-<cwd-basename>-<sid6>`,
+   where `<sid6>` is the first 6 characters of the harness session id — read
+   `$CLAUDE_CODE_SESSION_ID`, else `$CODEX_THREAD_ID`, else `$TERM_SESSION_ID`;
+   if none is set, omit the `-<sid6>` suffix. Team names become directories
+   under `~/.claude/teams/`. Folding the session id in means two sessions in the
+   **same** cwd get separate teams/inboxes — matching how jam ≥0.1.13 separates
+   their agents/daemons by the same id — so same-directory sessions no longer
+   clobber each other's `<teammate-message>` delivery. (Sessions in different
+   cwds never collided.)
 
 2. **Pick a profile.** Don't pass `--profile` explicitly. If the user has
    `JAM_PROFILE` set in their environment, jam honors it automatically;
