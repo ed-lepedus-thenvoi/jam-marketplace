@@ -60,7 +60,7 @@ If both prerequisites are met, proceed.
 
 5. **Run `jam onboard --team <team>`.** This:
    - Provisions a per-session Band agent (name auto-derived as
-     `claude-<repo>-<hex>`)
+     `jam-<repo>-<hex>` — the tool that created it, not the harness)
    - Spawns the sockpuppet bridge in the background
    - Polls until it connects
    - Prints orientation to stdout, including your full handle
