@@ -78,22 +78,31 @@ in a Band room, the sockpuppet writes a notification to
 `~/.claude/teams/<team>/inboxes/<teammate>.json` and Claude Code injects it as
 a `<teammate-message>` block in your next turn.
 
-Each notification's `text` field tells you the exact command to run. The
-canonical patterns:
+Each notification's `text` field prints the exact, copy-pasteable commands to
+run — they include the `--chat <chat_id>` flag and look like:
 
 ```
-jam reply <msg_id> "your response text"   # sends + auto-acks
-jam ack <msg_id>                           # ack without replying
+jam reply --chat <chat_id> <msg_id> "@sender your response text"
+jam ack   --chat <chat_id> <msg_id>
 ```
+
+**Use the `--chat` form the notification gives you.** The flag is not optional
+in Claude Code: the harness **drains the team inbox file as it injects the
+`<teammate-message>`**, so a bare `jam reply <msg_id>` / `jam ack <msg_id>`
+(which look the message up in that drained file) fail with `not found in
+inbox`. Passing `--chat` — with the chat_id straight from the notification's
+`Room:` line — sidesteps the drained file entirely. In `--chat` mode you must
+include your own `@owner/handle` mention in the reply text (there's no inbox
+entry to auto-mention the sender from); the printed command already prefills it.
+
+> On non-Claude-Code harnesses that merely *poll* `jam inbox`, the file isn't
+> drained and the bare `jam reply <msg_id>` / `jam ack <msg_id>` still resolve.
+> But the `--chat` form is harness-agnostic and always works, so prefer it.
 
 **Mark every inbound processed**, even ones you don't reply to. Skipping this
 stalls Band's per-(agent, chat) cursor and you stop receiving new messages in
 that chat. `jam reply` does it automatically; `jam ack` is the explicit form.
-
-`jam reply` is safe to call even if the message has already been processed —
-the mark-processed call is idempotent on Band's side. If you've already acked
-an inbound and then need to follow up, `jam reply <msg_id> "…"` still works
-as long as the notification is in the inbox file.
+Both are idempotent on Band's side, so re-acking or replying late is safe.
 
 ## Outbound (starting a conversation)
 
